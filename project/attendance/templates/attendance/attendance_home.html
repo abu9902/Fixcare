@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'CSS/attendance_home.css' %}">
+<style>
+  body {
+    background: #f4f6f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .attendance-dashboard {
+    max-width: 800px;
+    margin: 60px auto;
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top:90px;
+  }
+
+  .attendance-dashboard h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #1a202c;
+    position: relative;
+  }
+
+  .attendance-dashboard h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #4f46e5;
+    margin: 10px auto 0;
+    border-radius: 2px;
+  }
+
+  .attendance-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .action-button {
+    background: #4f46e5;
+    color: white;
+    padding: 16px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .action-button:hover {
+    background: #3730a3;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+  }
+
+  .action-button:active {
+    transform: scale(0.97);
+  }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="attendance-dashboard">
+  <h2>Attendance Management</h2>
+  <div class="attendance-actions">
+    <a href="{% url 'attendance:add_attendance' %}" class="action-button">➕ Add Attendance</a>
+    <a href="{% url 'attendance:add_employee' %}" class="action-button">👤 Add Employee</a>
+    <a href="{% url 'attendance:attendance_list' %}" class="action-button">📋 Attendance List</a>
+  </div>
+</div>
+{% endblock %}

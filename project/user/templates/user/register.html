@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+  {% block head %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+  <link rel="stylesheet" href="{% static 'CSS/Login.css' %}" />
+  {% endblock head %}
+</head>
+<body>
+  {% block content %}
+  <div class="auth-container">
+    <div class="form-box">
+      <h2>Register</h2>
+      <form>
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter your full name" required />
+        </div>
+
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="Create a password" required />
+        </div>
+
+        <div class="input-group">
+          <label>Confirm Password</label>
+          <input type="password" placeholder="Confirm your password" required />
+        </div>
+
+        <button type="submit" class="submit-btn">Register</button>
+      </form>
+
+      <p class="toggle-text">
+        Already have an account? <a href="{% url "login" %}">Login</a>
+      </p>
+    </div>
+  </div>
+  {% endblock content %}
+</body>
+</html>

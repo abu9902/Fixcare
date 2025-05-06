@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'CSS/add_attendance.css' %}">
+<style>
+  body {
+    background: #f8fafc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .attendance-wrapper {
+    max-width: 600px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .attendance-wrapper h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .attendance-wrapper h2::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #4f46e5;
+    margin: 10px auto 0;
+    border-radius: 2px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .attendance-status {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .attendance-status input[type="radio"] {
+    display: none;
+  }
+
+  .attendance-status label {
+    font-size: 1.2rem;
+    color: #4f46e5;
+    padding: 15px 30px;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    flex: 1;
+  }
+
+  .attendance-status input[type="radio"]:checked + label {
+    background-color: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+  }
+
+  .attendance-status input[type="radio"]:checked + label .emoji {
+    font-size: 1.8rem;
+  }
+
+  .attendance-status label .emoji {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  .attendance-status input[type="radio"]:checked + label .emoji {
+    transform: scale(1.2);
+  }
+
+  button[type="submit"] {
+    background: #4f46e5;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  button[type="submit"]:hover {
+    background: #3730a3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
+  }
+
+  .attendance-wrapper a {
+    display: inline-block;
+    margin-top: 20px;
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    text-align: center;
+  }
+
+  .attendance-wrapper a:hover {
+    color: #3730a3;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="attendance-wrapper">
+    <h2>Mark Attendance</h2>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Employee Field -->
+        <div class="form-group">
+            <label for="{{ form.employee.id_for_label }}">{{ form.employee.label }}</label>
+            {{ form.employee }}
+        </div>
+
+        <!-- Status Field -->
+        <div class="attendance-status">
+            <div>
+                <input type="radio" id="{{ form.status.id_for_label }}_1" name="status" value="1" {% if form.status.value == '1' %}checked{% endif %} required>
+                <label for="{{ form.status.id_for_label }}_1">
+                    <span class="emoji">✔</span> Present
+                </label>
+            </div>
+            <div>
+                <input type="radio" id="{{ form.status.id_for_label }}_0" name="status" value="0" {% if form.status.value == '0' %}checked{% endif %} required>
+                <label for="{{ form.status.id_for_label }}_0">
+                    <span class="emoji">❌</span> Absent
+                </label>
+            </div>
+        </div>
+
+        <button type="submit">📋 Submit Attendance</button>
+    </form>
+    <a href="{% url 'attendance:attendance_home' %}">← Back to Dashboard</a>
+</div>
+{% endblock %}

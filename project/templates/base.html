@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Professional Navbar</title>
+  <link rel="stylesheet" href="{% static 'CSS/Nav.css' %}">
+  {% block head %}
+  
+  {% endblock head %}
+  
+
+
+
+</head>
+<body>
+
+  {% block nav %}
+  <nav class="navbar">
+    <!-- Left: Logo + Company Name -->
+    <div class="navbar-left">
+      <img src="{% static 'media/cat.jpeg' %}" alt="Logo" class="logo-img" />
+      <span class="company-name">FIXCARE</span>
+    </div>
+
+    <div class="navbar-center">
+      <a href="{% url 'app:home' %}">Home</a>
+      <a href="https://www.google.com/search?q=fixcare+reviews&oq=fixcare+re&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyBggBEEUYOTIICAIQABgWGB4yBwgDEAAY7wUyBwgEEAAY7wUyBwgFEAAY7wUyBggGEEUYPDIGCAcQRRg80gEJMzExNTRqMGo3qAIIsAIB8QWu10Pk9L8ImA&sourceid=chrome&ie=UTF-8#lrd=0x3bae17d966c962e7:0xe02382f732047ea7,1,,,,">Reviews</a>
+      <a href="{% url 'app:sales_list' %}">Sales</a>
+      <a href="{% url 'attendance:attendance_home' %}">Attendance</a>
+      
+      {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+          <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+  </div>
+  
+
+    <!-- Right: Profile -->
+    <div class="navbar-right">
+      <a href="./profile.html" class="profile-link">Profile</a>
+    </div>
+  </nav>
+  {% endblock nav %}
+</body>
+
+{% block content %}
+
+
+{% endblock content %}
+
+
+
+</html>

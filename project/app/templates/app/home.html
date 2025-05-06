@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FixCare | Home</title>
+  <link rel="stylesheet" href="{% static 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap' %}">
+
+  <link rel="stylesheet" href="{% static 'CSS/home.css' %}">
+  {% endblock head %}
+</head>
+<body>
+    {% block content %}
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to FixCare</h1>
+      <p>Your trusted tech repair partner for all things mobile & electronics.</p>
+      <a href="#" class="cta-btn">Get Started</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about">
+    <h2>About FixCare</h2>
+    <p>FixCare is your one-stop solution for hassle-free mobile and device repairs. We offer onsite service, pickup & drop, and walk-in support – all handled by certified technicians.</p>
+  </section>
+
+  <!-- Services -->
+  <section class="services">
+    <h2>Our Services</h2>
+    <div class="service-cards">
+      <div class="service-card">
+        <h3>Onsite Repair</h3>
+        <p>We come to you. Fast, safe, and convenient repairs at your location.</p>
+      </div>
+      <div class="service-card">
+        <h3>Pickup & Drop</h3>
+        <p>Book a pickup. We repair and deliver your device securely.</p>
+      </div>
+      <div class="service-card">
+        <h3>Walk-in Center</h3>
+        <p>Visit our service center and meet our expert technicians.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-cards">
+      <div class="testimonial">
+        <p>"Excellent service and timely repair!"</p>
+        <span>– Abdul Rahman</span>
+      </div>
+      <div class="testimonial">
+        <p>"Very professional technicians. Solved my iPhone issue quickly."</p>
+        <span>– Priya Sharma</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 FixCare. All rights reserved.</p>
+    <p>Email: support@fixcare.com | Phone: +91 98765 43210</p>
+  </footer>
+  {% endblock content %}
+</body>
+</html>

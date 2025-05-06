@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'CSS/attendance.css' %}">
+{% endblock head %}
+{% block content %}
+<div class="attendance-container">
+
+  <h2 class="attendance-title">Employee Attendance Report</h2>
+
+  <table class="attendance-table">
+      <thead>
+          <tr>
+              <th>Employee Name</th>
+              <th>Date</th>
+              <th>Status</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for attendance in attendances %}
+          <tr>
+              <td>{{ attendance.employee.name }}</td>
+              <td>{{ attendance.date }}</td>
+              <td class="{% if attendance.status %}present{% else %}absent{% endif %}">
+                  {% if attendance.status %}
+                      ✔ Present
+                  {% else %}
+                      ✖ Absent
+                  {% endif %}
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <div class="download-section">
+    <a href="{% url 'attendance:download_attendance' %}" class="download-btn">
+      ⬇ Download Attendance
+    </a>
+  </div>
+</div>
+{% endblock content %}

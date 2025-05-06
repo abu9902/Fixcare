@@ -1,0 +1,78 @@
+.attendance-container {
+
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.attendance-title {
+    margin-top: 90px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 28px;
+    color: #333;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.attendance-table th,
+.attendance-table td {
+    border: 1px solid #ddd;
+    padding: 14px 18px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.attendance-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+}
+
+.attendance-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.attendance-table tr:hover {
+    background-color: #eef;
+}
+
+.present {
+    color: green;
+    font-weight: bold;
+}
+
+.absent {
+    color: red;
+    font-weight: bold;
+}
+
+.download-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.download-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.download-btn:hover {
+    background-color: #218838;
+}
+
+

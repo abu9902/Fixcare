@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'CSS/details.css' %}">
+{% endblock head %}
+
+{% block content %}
+<div class="cust-detail-wrapper">
+  <div class="cust-detail-card">
+    <div class="cust-header">
+      <h2>{{ sale.name }}</h2>
+      <p class="cust-date">{{ sale.created_at|date:"F j, Y · g:i A" }}</p>
+    </div>
+
+    <div class="cust-info">
+      <p><span>Customer ID:</span> {{ sale.customer_id }}</p>
+      <p><span>Contact:</span> {{ sale.contact_number }}</p>
+      <p><span>Brand:</span> {{ sale.brand }}</p>
+      <p><span>Model:</span> {{ sale.model }}</p>
+      <p><span>Issue:</span> {{ sale.issue }}</p>
+      <p><span>Color:</span> {{ sale.color }}</p>
+      <p><span>Price:</span> ₹{{ sale.price }}</p>
+      <p><span>Location:</span> {{ sale.location }}</p>
+      <p><span>Service:</span> {{ sale.service_type }}</p>
+      <p><span>Assigned To:</span> {{ sale.assigned_to }}</p>
+      <p><span>Mode of Payment:</span> {{ sale.mode_of_payment }}</p>
+<p><span>Technician Name:</span> {{ sale.technician_name }}</p>
+<p><span>Work Status:</span> {{ sale.work_status }}</p>
+<p><span>Customer Feedback:</span> {{ sale.customer_feedback }}</p>
+    </div>
+
+    <a href="{% url 'app:sales_list' %}" class="cust-back-btn">← Back to Sales</a>
+  </div>
+</div>
+{% endblock content %}
