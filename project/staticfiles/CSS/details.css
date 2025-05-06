@@ -1,0 +1,64 @@
+/* Unique CSS for Customer Detail Page */
+.cust-detail-wrapper {
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f6fb;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  margin-top: 60px; /* in case navbar overlaps */
+}
+
+.cust-detail-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.cust-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.cust-date {
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.cust-info {
+  margin-top: 25px;
+}
+
+.cust-info p {
+  margin-bottom: 12px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #444;
+}
+
+.cust-info span {
+  font-weight: 600;
+  color: #000;
+}
+
+.cust-back-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 10px 18px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.cust-back-btn:hover {
+  background-color: #0056b3;
+}

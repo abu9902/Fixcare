@@ -1,0 +1,42 @@
+/* static/CSS/add_attendance.css */
+.attendance-wrapper {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.attendance-wrapper h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.attendance-wrapper form {
+    display: flex;
+    flex-direction: column;
+}
+
+.attendance-wrapper form input,
+.attendance-wrapper form select {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.attendance-wrapper button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.attendance-wrapper button:hover {
+    background-color: #45a049;
+}

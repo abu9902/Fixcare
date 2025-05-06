@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'CSS/register.css' %}">
+{% endblock head %}
+
+
+
+{% block content %}
+<div class="auth-container">
+  <h2>Login</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+      <label>Username</label>
+      <input type="text" name="username" required>
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" name="password" required>
+    </div>
+    <button class="submit-btn" type="submit">Login</button>
+  </form>
+  <div class="toggle-text">
+    <p>No account? <a href="{% url 'register' %}">Register</a></p>
+  </div>
+</div>
+{% endblock content %}

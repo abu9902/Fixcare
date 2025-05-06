@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'CSS/register.css' %}">
+{% endblock head %}
+
+{% block content %}
+<div class="auth-container">
+  <h2>Register</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="input-group">
+      <label>{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+    <button class="submit-btn" type="submit">Register</button>
+  </form>
+  <div class="toggle-text">
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+  </div>
+</div>
+{% endblock content %}

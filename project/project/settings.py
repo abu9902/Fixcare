@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
-    'user',
+    'users',
     'attendance',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -141,3 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 
 LOGIN_URL = 'login'  # or '/accounts/login/' if using the default path
+
+
+AUTH_USER_MODEL = 'users.CustomUser'
+

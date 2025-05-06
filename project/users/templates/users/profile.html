@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link href=" https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #0066cc, #004080);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        .profile-card {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .profile-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #0066cc;
+        }
+        .profile-card h2 {
+            font-size: 20px;
+            color: #004080;
+            margin-bottom: 5px;
+        }
+        .profile-card p {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 8px;
+        }
+        .profile-card a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background-color: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .profile-card a:hover {
+            background-color: #004d99;
+        }
+    </style>
+    {% endblock head %}
+</head>
+<body>
+    {% block content %}
+    <div class="profile-card">
+        {% if user.profile_pic %}
+            <img src="{{ user.profile_pic.url }}" alt="Profile Picture">
+        {% else %}
+            <img src="/media/profiles/default.jpg" alt="Default Profile">
+        {% endif %}
+        <h2>Welcome, {{ user.username }}</h2>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone }}</p>
+        <p><strong>Role:</strong> {{ user.role }}</p>
+        <p><strong>Date of Birth:</strong> {{ user.dob }}</p>
+        <a href="{% url 'edit_profile' %}">Edit Profile</a><br><br>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+    {% endblock content %}
+</body>
+</html>
