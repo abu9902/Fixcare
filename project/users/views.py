@@ -4,16 +4,29 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
 
+from django.shortcuts import render
+
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm
+
+# Admin check
+def is_admin(user):
+    return user.is_staff
+
+@user_passes_test(is_admin)
 def register_view(request):
-    form = CustomUserCreationForm()
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('profile')
+            form.save()
+            return redirect('login')  # change as needed
+    else:
+        form = CustomUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
+
+
 
 def login_view(request):
     if request.method == 'POST':

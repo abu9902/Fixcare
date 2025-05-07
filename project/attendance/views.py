@@ -70,6 +70,9 @@ from django.shortcuts import render, redirect
 from .forms import EmployeeForm
 from .models import Employee
 
+
+@login_required
+@user_passes_test(is_admin)
 def add_employee(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
