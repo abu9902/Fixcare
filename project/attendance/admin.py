@@ -6,3 +6,5 @@ from . models import *
 
 admin.site.register(Employee)
 admin.site.register(Attendance)
+admin.site.register(AttendanceMonth)
+admin.site.register(SavedMonth)

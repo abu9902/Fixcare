@@ -35,7 +35,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('app:sales_list')
+            return redirect('app:home')
     return render(request, 'users/login.html')
 
 def logout_view(request):

@@ -2,12 +2,13 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 <html lang="en">
-<head>
     {% block head %}
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Employee</title>
+  <title>Attendance Marking</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -31,7 +32,6 @@
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       width: 400px;
-      margin-top:30px;
     }
 
     h2 {
@@ -46,17 +46,24 @@
       font-weight: 600;
     }
 
-    input, select, textarea {
+    select, .attendance-options {
       width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    select {
       padding: 0.6rem;
       border-radius: 8px;
       border: 1px solid #ccc;
-      margin-bottom: 1rem;
     }
 
-    .file-input {
-      border: none;
-      margin-bottom: 1rem;
+    .attendance-options {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .attendance-options label {
+      font-weight: normal;
     }
 
     .submit-btn {
@@ -74,47 +81,39 @@
     .submit-btn:hover {
       background-color: #45a049;
     }
-
-    .note {
-      text-align: center;
-      margin-top: 1rem;
-      color: #888;
-    }
-
-    .note a {
-      color: #3498db;
-      text-decoration: none;
-    }
+    
   </style>
   {% endblock head %}
 </head>
 <body>
     {% block content %}
   <div class="card">
-    <h2>Add Employee</h2>
-    <form method="POST" enctype="multipart/form-data">
+    <h2>Mark Attendance</h2>
+    <form action="{% url 'attendance:mark_attendance' %}" method="POST">
         {% csrf_token %}
+        <label for="employee">Select Employee</label>
+        <select id="employee" name="employee" required>
+            <option value="">-- Choose Employee --</option>
+            {% for employee in employees %}
+              <option value="{{ employee.id }}">{{ employee.name }}</option>
+            {% endfor %}
+          </select>
+          
       
-        <label for="name">Employee Name</label>
-        <input type="text" id="name" name="name" required />
+        <div class="attendance-options">
+          <label>
+            <input type="radio" name="status" value="Present" required /> Present
+          </label>
+          <label>
+            <input type="radio" name="status" value="Absent" required /> Absent
+          </label>
+          <label>
+            <input type="radio" name="status" value="Half" required /> Half
+        </div>
       
-        <label for="role">Role/Designation</label>
-        <input type="text" id="role" name="role" required />
-      
-        <label for="date_of_joining">Date of Joining</label>
-        <input type="date" id="date_of_joining" name="date_of_joining" required />
-      
-        <label for="profile_picture">Profile Picture (Optional)</label>
-        <input type="file" id="profile_picture" name="profile_picture" class="file-input" />
-      
-        <button type="submit" class="submit-btn">Add Employee</button>
+        <button type="submit" class="submit-btn">Submit</button>
       </form>
       
-
-    <div class="note">
-      <p>Once added, the employee will be available in the attendance list.</p>
-      <p><a href="attendance_list.html">View Attendance List</a></p>
-    </div>
   </div>
   {% endblock content %}
 </body>

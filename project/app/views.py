@@ -96,3 +96,23 @@ def download_sales_excel(request):
 def customer_detail(request, customer_id):
     sale = get_object_or_404(Sale, customer_id=customer_id)
     return render(request, 'app/customer_detail.html', {'sale': sale})
+
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .forms import SaleForm
+
+@login_required
+def add_sale(request):
+    if request.method == 'POST':
+        form = SaleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Sale data saved successfully!')
+            return redirect('app:addsale')
+    else:
+        form = SaleForm()
+    return render(request, 'app/add_sales.html', {'form': form})
+
