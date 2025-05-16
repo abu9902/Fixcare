@@ -14,6 +14,7 @@ import openpyxl
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Sale
+from django.db.models import Q
 
 
 @login_required
@@ -25,7 +26,11 @@ def sales_list(request):
     sales = Sale.objects.all()
 
     if query:
-        sales = sales.filter(name__icontains=query) | Sale.objects.filter(customer_id__icontains=query)
+        sales = sales.filter(
+            Q(name__icontains=query) |
+            Q(customer_id__icontains=query) |
+            Q(contact_number__icontains=query)  # ✅ corrected field name
+        )
 
     if start_date and end_date:
         sales = sales.filter(created_at__date__range=[start_date, end_date])
@@ -104,6 +109,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import SaleForm
 
+# Admin check
+def is_admin(user):
+    return user.is_staff
+
+# @user_passes_test(is_admin)
 @login_required
 def add_sale(request):
     if request.method == 'POST':

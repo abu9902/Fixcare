@@ -23,7 +23,7 @@
   <nav class="navbar">
     <!-- Left: Logo + Company Name -->
     <div class="navbar-left">
-      <img src="{% static 'media/Fixcare.png' %}" alt="Logo" class="logo-img" id='abu' />
+      {% comment %} <img src="{% static 'media/Fixcare.png' %}" alt="Logo" class="logo-img" id='abu' /> {% endcomment %}
       <span class="company-name">FIXCARE</span>
     </div>
 
@@ -35,6 +35,8 @@
         <a href="{% url 'app:sales_list' %}">Sales</a>
         
         <a href="{% url 'register' %}">Register</a>
+      <a href="{% url 'attendance:attendance_home' %}">Attendance</a>
+
       {% endif %}
       <a href="{% url 'app:addsale' %}">Add Sales</a>
 
@@ -43,7 +45,6 @@
       {% else %}
         <a href="{% url 'login' %}">Login</a>
       {% endif %}
-      <a href="{% url 'attendance:attendance_home' %}">Attendance</a>
 
     </div>
     

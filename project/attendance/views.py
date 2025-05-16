@@ -19,6 +19,11 @@ def add_employee(request):
     return render(request, 'attendance/add_employee.html', {'form': form})
 
 
+# Admin check
+def is_admin(user):
+    return user.is_staff
+
+
 from django.shortcuts import render, redirect
 from .models import Employee, Attendance
 from datetime import date
@@ -46,38 +51,6 @@ import calendar
 from django.shortcuts import render
 from datetime import datetime
 from .models import Attendance  # Example model
-
-def attendance_list(request):
-    # Get the current year and month
-    current_year = datetime.now().year
-    current_month = datetime.now().month
-    
-    # Get year and month from GET parameters if available
-    year = request.GET.get('year', current_year)
-    month = request.GET.get('month', current_month)
-
-    # Convert to integers
-    year = int(year)
-    month = int(month)
-
-    # Fetch attendance data filtered by year and month
-    attendance_data = Attendance.objects.filter(date__year=year, date__month=month)
-
-    # Get a list of all months for the sidebar
-    months_list = [(year, m) for m in range(1, 13)]
-
-    # Prepare month display (e.g., "January 2025")
-    month_display = f"{datetime(year, month, 1).strftime('%B')} {year}"
-
-    # Pass all the context to the template
-    context = {
-        'attendance_data': attendance_data,
-        'months_list': months_list,
-        'current_month': (year, month),
-        'month_display': month_display,
-    }
-
-    return render(request, 'attendance/attendance_list.html', context)
 
 
 import pandas as pd
@@ -156,21 +129,28 @@ def attendance_list(request):
 
     for emp in employees:
         daily_status = []
+        present_count = 0
+        half_count = 0
 
         for single_date in date_list:
             record = Attendance.objects.filter(employee=emp, date=single_date).first()
             if record:
                 if record.status == "Present":
                     daily_status.append("P")
+                    present_count += 1
                 elif record.status == "Absent":
                     daily_status.append("A")
                 elif record.status == "Half":
                     daily_status.append("H")
+                    half_count += 0.5
             else:
                 daily_status.append("")  # No record
+
+        total_attendance = present_count + half_count
         attendance_data.append({
             "name": emp.name,
-            "attendance": daily_status
+            "attendance": daily_status,
+            "total": f"{total_attendance}/{num_days}"
         })
 
     context = {
@@ -184,38 +164,100 @@ def attendance_list(request):
 
 
 
+from collections import defaultdict
+from django.http import HttpResponse
+import csv
 
-# Replace AttendanceMonth with SavedMonth in add_month and clear_months
+def old_records_list(request):
+    records = Attendance.objects.all().order_by('-date')
+    monthly_data = defaultdict(list)
 
-@require_POST
-def add_month(request):
-    name = request.POST['month_name'].strip().lower()  # Convert to lowercase
-    year = int(request.POST['year'])
-    days = int(request.POST['days'])
+    # Group records by (year, month)
+    for record in records:
+        key = (record.date.year, record.date.month)
+        monthly_data[key].append(record)
 
-    # Month mapping (already case-insensitive)
-    MONTHS = {
-        'january': 1, 'february': 2, 'march': 3, 'april': 4,
-        'may': 5, 'june': 6, 'july': 7, 'august': 8,
-        'september': 9, 'october': 10, 'november': 11, 'december': 12
+    # Build list of months
+    months = [
+        {
+            "year": year,
+            "month": month,
+            "month_name": date(year, month, 1).strftime("%B")
+        }
+        for (year, month) in monthly_data
+    ]
+
+    context = {
+        "months": sorted(months, key=lambda x: (x['year'], x['month']), reverse=True)
     }
 
-    month_number = MONTHS.get(name)
-    if not month_number:
-        return render(request, 'attendance/attendance_list.html', {
-            'error': 'Invalid month name. Please enter a valid month.'
-        })
+    return render(request, "attendance/old_records_list.html", context)
 
-    # Save the month details
-    SavedMonth.objects.create(
-        month_name=name.capitalize(),  # Capitalize the month name to store it properly
-        month_number=month_number,
-        year=year,
-        days_in_month=days
-    )
-    return redirect('attendance:attendance_list')
 
-@require_POST
-def clear_months(request):
-    SavedMonth.objects.all().delete()
-    return redirect('attendance:attendance_list')
+import calendar
+from datetime import date
+from django.http import HttpResponse
+import pandas as pd
+from .models import Attendance, Employee
+
+def download_attendance_excel(request, year, month):
+    year = int(year)
+    month = int(month)
+
+    # Generate all dates for the month
+    days_in_month = calendar.monthrange(year, month)[1]
+    dates = [date(year, month, day) for day in range(1, days_in_month + 1)]
+
+    employees = Employee.objects.all()
+    data = []
+
+    for employee in employees:
+        row = {'Employee': employee.name}
+        present_count = 0
+        half_count = 0
+
+        for d in dates:
+            record = Attendance.objects.filter(employee=employee, date=d).first()
+            if record:
+                status = record.status.lower()
+                if status == 'present':
+                    row[d.strftime('%b %d')] = 'Present'
+                    present_count += 1
+                elif status == 'half':
+                    row[d.strftime('%b %d')] = 'Half'
+                    half_count += 0.5
+                else:
+                    row[d.strftime('%b %d')] = 'Absent'
+            else:
+                row[d.strftime('%b %d')] = ''
+
+        # Total attendance: Present + Half (0.5 counted)
+        total_present = present_count + half_count
+        row['Total Attendance'] = f"{total_present}/{days_in_month}"
+        data.append(row)
+
+    df = pd.DataFrame(data)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    filename = f"Attendance_{calendar.month_name[month]}_{year}.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    df.to_excel(response, index=False)
+
+    return response
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Employee
+from django.contrib import messages
+
+def delete_employee_view(request):
+    employees = Employee.objects.all()
+
+    if request.method == "POST":
+        emp_id = request.POST.get("employee_id")
+        employee = get_object_or_404(Employee, id=emp_id)
+        employee.delete()
+        messages.success(request, f"Employee '{employee.name}' deleted successfully.")
+        return redirect('attendance:delete_employee')  # Use your app name here
+
+    return render(request, 'attendance/delete_employee.html', {'employees': employees})

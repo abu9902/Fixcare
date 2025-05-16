@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .record-container {
+        max-width: 700px;
+        margin: 30px auto;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top:90px;
+    }
+
+    .record-title {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .record-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .record-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        margin-bottom: 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        background-color: #ffffff;
+        transition: box-shadow 0.2s;
+    }
+
+    .record-item:hover {
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .record-month {
+        font-size: 18px;
+        font-weight: 500;
+        color: #212529;
+    }
+
+    .download-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+
+    .download-btn:hover {
+        background-color: #218838;
+        color: white;
+    }
+</style>
+
+<div class="record-container">
+    <div class="record-title">📂 Old Attendance Records</div>
+    <ul class="record-list">
+        {% for month in months %}
+            <li class="record-item">
+                <span class="record-month">{{ month.month_name }} {{ month.year }}</span>
+                <a href="{% url 'attendance:download_attendance' month.year month.month %}" class="download-btn">
+                    ⬇ Download
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

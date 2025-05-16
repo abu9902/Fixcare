@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -88,37 +89,48 @@
       color: black;
       font-weight: bold;
     }
+    #dow{
+      margin-right:-590px;
+    }
+    #old{
+      margin-right:-600px;
+    }
   </style>
 </head>
 <body>
 
   <div class="main-header">
     <h2>Attendance - {{ month_name }} {{ year }}</h2>
-    <a href="{% url 'attendance:export_excel' %}?year={{ year }}&month={{ month }}" class="download-btn">Download Excel</a>
+    <a href="{% url 'attendance:export_excel' %}?year={{ year }}&month={{ month }}" class="download-btn" id='dow'>Download Excel</a>
+<a href="{% url 'attendance:old_records' %}" class="download-btn" id='old'>Old Records</a>
 
+<a href="{% url 'attendance:attendance_home' %}" class="download-btn">Back</a>
   </div>
 
   <table>
     <thead>
-      <tr>
-        <th>Employee</th>
-        {% for date in date_list %}
-          <th>{{ date.day }}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for employee in attendance_data %}
-        <tr>
-          <td>{{ employee.name }}</td>
-          {% for status in employee.attendance %}
-            <td class="{% if status == 'P' %}present{% elif status == 'A' %}absent{% elif status == 'H' %}half{% endif %}">
-              {% if status == 'P' %}✔{% elif status == 'A' %}✖{% elif status == 'H' %}½{% endif %}
-            </td>
-          {% endfor %}
-        </tr>
+  <tr>
+    <th>Employee</th>
+    {% for date in date_list %}
+      <th>{{ date.day }}</th>
+    {% endfor %}
+    <th>Total</th> <!-- ✅ Added total column -->
+  </tr>
+</thead>
+<tbody>
+  {% for employee in attendance_data %}
+    <tr>
+      <td>{{ employee.name }}</td>
+      {% for status in employee.attendance %}
+        <td class="{% if status == 'P' %}present{% elif status == 'A' %}absent{% elif status == 'H' %}half{% endif %}">
+          {% if status == 'P' %}✔{% elif status == 'A' %}✖{% elif status == 'H' %}½{% endif %}
+        </td>
       {% endfor %}
-    </tbody>
+      <td><strong>{{ employee.total }}</strong></td> <!-- ✅ Display total from context -->
+    </tr>
+  {% endfor %}
+</tbody>
+
   </table>
 
 </body>
